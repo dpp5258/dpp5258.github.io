@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过去一年</title>
+    <!-- 引入外部CSS -->
+    <link rel="stylesheet" href="player.css">
+</head>
+<body>
+    <div class="player-container">
+        <h1 class="player-title">过去一年</h1>
+        
+        <div class="media-container">
+            <!-- 幻灯片图片 -->
+            <div class="slide active" style="background-image: url('image/IMG_20240911_182413\(1\).jpg');"></div>
+            <div class="slide" style="background-image: url('image/IMG_20241001_061512\(1\).jpg');"></div>
+            <div class="slide" style="background-image: url('image/IMG_20241001_105627\(1\).jpg');"></div>
+            <div class="slide" style="background-image: url('image/IMG_20241001_144048\(1\).jpg');"></div>
+        </div>
+        
+        <!-- 暂停/播放按钮 -->
+        <div class="pause-btn paused" id="pauseBtn">
+            <div class="pause-icon"></div>
+            <div class="play-icon"></div>
+        </div>
+        
+        <div class="player-status" id="playerStatus">❤️</div>
+    </div>
+    
+    <!-- 声音控制按钮 -->
+    <div class="sound-control" id="soundControl">
+        <div class="sound-icon"></div>
+    </div>
+    
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" loop>
+        <source src="music/第57次取消发送.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放
+    </audio>
+
+    <!-- 引入外部JS -->
+    <script src="player.js"></script>
+</body>
+</html>

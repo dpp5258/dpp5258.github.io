@@ -1,0 +1,265 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 页面主体样式 */
+body {
+    min-height: 100vh;
+    background-color: #e8f5e9;
+    background-image: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    cursor: default;
+}
+
+/* 爱心浮动元素样式 */
+.heart {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 24px;
+    z-index: 1;
+    pointer-events: none;
+    animation: float linear infinite;
+    transition: all 8s ease-in-out;
+}
+
+/* 播放器容器样式 */
+.player-container {
+    position: relative;
+    width: 80vmin;
+    height: 80vmin;
+    max-width: 600px;
+    max-height: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* 媒体播放区域（幻灯片） */
+.media-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+/* 暂停/播放按钮样式 */
+.pause-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15vmin;
+    height: 15vmin;
+    max-width: 100px;
+    max-height: 100px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.pause-btn:hover {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause-icon {
+    width: 40%;
+    height: 40%;
+    position: relative;
+}
+
+.pause-icon::before,
+.pause-icon::after {
+    content: '';
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 2px;
+}
+
+.pause-icon::after {
+    right: 0;
+}
+
+.play-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20% 0 20% 35%;
+    border-color: transparent transparent transparent #4caf50;
+    display: none;
+}
+
+.paused .pause-icon {
+    display: none;
+}
+
+.paused .play-icon {
+    display: block;
+}
+
+/* 声音控制按钮样式 */
+.sound-control {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 30;
+    transition: all 0.3s ease;
+}
+
+.sound-control:hover {
+    transform: scale(1.1);
+}
+
+.sound-icon {
+    width: 24px;
+    height: 24px;
+    position: relative;
+}
+
+.sound-icon::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 0 12px 20px;
+    border-color: transparent transparent transparent #4caf50;
+}
+
+.sound-icon::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #4caf50;
+    border-radius: 50%;
+}
+
+.muted .sound-icon::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: #4caf50;
+    transform: rotate(45deg) translateY(-50%);
+    border: none;
+}
+
+/* 标题和状态文字样式 */
+.player-title {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #2e7d32;
+    font-size: 2rem;
+    font-weight: 300;
+    text-align: center;
+}
+
+.player-status {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #388e3c;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* 点击/拖动文字样式 */
+.mabiao-text {
+    position: absolute;
+    color: #1976d2;
+    font-size: 16px;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 25;
+    animation: textPop 1.5s ease-out forwards;
+}
+
+/* 动画定义 */
+@keyframes textPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+    70% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateX(-100%) translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateX(150vw) translateY(0) rotate(10deg);
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .player-title {
+        font-size: 1.5rem;
+        top: -60px;
+    }
+    
+    .sound-control {
+        width: 50px;
+        height: 50px;
+    }
+}
