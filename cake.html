@@ -1,0 +1,377 @@
+<!-- cake.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>准备生日蛋糕</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fce4ec;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    h2 {
+      text-align: center;
+      color: #d32f2f;
+      margin-top: 30px;
+    }
+    
+    .progress-container {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    
+    .progress {
+      height: 15px;
+      background: #f8bbd0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1) inset;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: #d32f2f;
+      width: 0%;
+      transition: width 0.8s ease-in-out;
+    }
+    
+    .progress-text {
+      text-align: right;
+      color: #795548;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .cake-container {
+      width: 400px;
+      height: 500px;
+      margin: 30px auto;
+      position: relative;
+    }
+    
+    /* 蛋糕底部托盘 */
+    .cake-plate {
+      position: absolute;
+      bottom: 0;
+      width: 300px;
+      height: 15px;
+      background: #e0e0e0;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+    
+    /* 蛋糕底层 */
+    .cake-base {
+      position: absolute;
+      bottom: 15px;
+      width: 240px;
+      height: 80px;
+      background: #8B4513;
+      border-radius: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    
+    .cake-base::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 15px;
+      background: rgba(255,255,255,0.2);
+      top: 30px;
+    }
+    
+    /* 蛋糕中层 */
+    .cake-middle {
+      position: absolute;
+      bottom: 95px;
+      width: 200px;
+      height: 70px;
+      background: #a0522d;
+      border-radius: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    
+    .cake-middle::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.2);
+      top: 25px;
+    }
+    
+    /* 蛋糕顶层 */
+    .cake-top {
+      position: absolute;
+      bottom: 165px;
+      width: 160px;
+      height: 60px;
+      background: #8B4513;
+      border-radius: 15px 15px 0 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    
+    /* 奶油装饰 */
+    .cream {
+      position: absolute;
+      display: none;
+    }
+    
+    .cream-bottom {
+      bottom: 85px;
+      width: 260px;
+      height: 20px;
+      background: #ffecb3;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .cream-middle {
+      bottom: 155px;
+      width: 220px;
+      height: 18px;
+      background: #ffecb3;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .cream-top {
+      bottom: 215px;
+      width: 180px;
+      height: 25px;
+      background: #ffecb3;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* 草莓装饰 */
+    .strawberry {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #e53935;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      display: none;
+    }
+    
+    .strawberry::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #7cb342;
+      top: -5px;
+      left: 10px;
+      transform: rotate(-45deg);
+    }
+    
+    .strawberry1 {
+      bottom: 210px;
+      left: 140px;
+    }
+    
+    .strawberry2 {
+      bottom: 215px;
+      left: 200px;
+    }
+    
+    .strawberry3 {
+      bottom: 210px;
+      left: 260px;
+    }
+    
+    /* 蜡烛 */
+    .candle {
+      position: absolute;
+      bottom: 220px;
+      width: 18px;
+      height: 80px;
+      background: #ffca28;
+      border-radius: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    
+    .candle::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background: #ff9800;
+      top: 10px;
+    }
+    
+    /* 火焰 */
+    .flame {
+      position: absolute;
+      bottom: 300px;
+      width: 25px;
+      height: 35px;
+      background: radial-gradient(circle, #ffeb3b 0%, #ff9800 70%, #e65100 100%);
+      border-radius: 50% 50% 20% 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      animation: flicker 0.5s infinite alternate;
+    }
+    
+    @keyframes flicker {
+      0% { transform: translateX(-50%) scale(1); opacity: 0.9; }
+      100% { transform: translateX(-50%) scale(1.1) rotate(5deg); opacity: 1; }
+    }
+    
+    /* 吃蛋糕按钮 */
+    .eat-btn {
+      display: none;
+      margin: 20px auto;
+      padding: 15px 40px;
+      font-size: 18px;
+      background: #d32f2f;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .eat-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+    }
+    
+    .eat-btn:active {
+      transform: translateY(1px);
+    }
+    
+    /* 页面载入动画 */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    body {
+      animation: fadeIn 1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <h2>正在准备你的生日蛋糕...</h2>
+  
+  <div class="progress-container">
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">0%</div>
+  </div>
+  
+  <div class="cake-container">
+    <!-- 蛋糕托盘 -->
+    <div class="cake-plate" id="plate"></div>
+    
+    <!-- 蛋糕底层 -->
+    <div class="cake-base" id="base"></div>
+    
+    <!-- 底层奶油 -->
+    <div class="cream cream-bottom" id="creamBottom"></div>
+    
+    <!-- 蛋糕中层 -->
+    <div class="cake-middle" id="middle"></div>
+    
+    <!-- 中层奶油 -->
+    <div class="cream cream-middle" id="creamMiddle"></div>
+    
+    <!-- 蛋糕顶层 -->
+    <div class="cake-top" id="top"></div>
+    
+    <!-- 顶层奶油 -->
+    <div class="cream cream-top" id="creamTop"></div>
+    
+    <!-- 草莓装饰 -->
+    <div class="strawberry strawberry1" id="strawberry1"></div>
+    <div class="strawberry strawberry2" id="strawberry2"></div>
+    <div class="strawberry strawberry3" id="strawberry3"></div>
+    
+    <!-- 蜡烛 -->
+    <div class="candle" id="candle"></div>
+    
+    <!-- 火焰 -->
+    <div class="flame" id="flame"></div>
+  </div>
+  
+  <button class="eat-btn" id="eatBtn" onclick="location.href='fireworks.html'">吃蛋糕啦 →</button>
+
+  <script>
+    // 定义蛋糕各部分的绘制顺序
+    const elements = [
+      'plate',      // 托盘
+      'base',       // 底层蛋糕
+      'creamBottom',// 底层奶油
+      'middle',     // 中层蛋糕
+      'creamMiddle',// 中层奶油
+      'top',        // 顶层蛋糕
+      'creamTop',   // 顶层奶油
+      'strawberry1',// 草莓1
+      'strawberry2',// 草莓2
+      'strawberry3',// 草莓3
+      'candle',     // 蜡烛
+      'flame'       // 火焰
+    ];
+    
+    let progress = 0;
+    const totalElements = elements.length;
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const eatBtn = document.getElementById('eatBtn');
+
+    // 分步绘制蛋糕
+    function drawCake() {
+      if (progress < totalElements) {
+        // 显示当前部分
+        const elem = document.getElementById(elements[progress]);
+        elem.style.display = 'block';
+        
+        // 计算当前进度百分比
+        const percentage = Math.round(((progress + 1) / totalElements) * 100);
+        progressBar.style.width = `${percentage}%`;
+        progressText.textContent = `${percentage}%`;
+        
+        progress++;
+        // 根据不同部分调整绘制速度，让整体更有节奏感
+        let delay = 600;
+        // 最后绘制火焰时延长一点时间，突出重点
+        if (progress === totalElements - 1) {
+          delay = 1000;
+        }
+        setTimeout(drawCake, delay);
+      } else {
+        // 绘制完成后显示"吃蛋糕"按钮
+        setTimeout(() => {
+          eatBtn.style.display = 'block';
+          // 按钮出现动画
+          eatBtn.style.animation = 'fadeIn 1s ease-in-out';
+        }, 1000);
+      }
+    }
+
+    // 开始绘制蛋糕
+    drawCake();
+  </script>
+</body>
+</html>
