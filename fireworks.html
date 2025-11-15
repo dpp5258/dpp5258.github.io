@@ -1,0 +1,199 @@
+<!-- fireworks.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>自动烟花祝福</title>
+  <style>
+    body { 
+      margin: 0; 
+      background: #000; 
+      overflow: hidden; 
+      height: 100vh;
+    }
+    .text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      color: #fff;
+      font-size: 50px;
+      opacity: 0;
+      transition: all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-shadow: 0 0 20px rgba(255,255,255,0.8);
+      z-index: 10;
+    }
+    .next-btn {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 30px;
+      background: #ff4757;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 18px;
+      box-shadow: 0 5px 15px rgba(255,71,87,0.4);
+      transition: all 0.3s;
+      z-index: 10;
+      opacity: 0;
+      animation: fadeInBtn 1s 3s forwards;
+    }
+    .next-btn:hover {
+      transform: translateX(-50%) scale(1.05);
+      box-shadow: 0 8px 20px rgba(255,71,87,0.6);
+    }
+
+    @keyframes fadeInBtn {
+      to { opacity: 1; }
+    }
+    .trail {
+      position: absolute;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="text" id="birthdayText">生日快乐！</div>
+  <button class="next-btn" onclick="location.href='message.html'">留下祝福</button>
+
+  <script>
+    // 显示祝福文字动画
+    setTimeout(() => {
+      const text = document.getElementById('birthdayText');
+      text.style.transform = 'translate(-50%, -50%) scale(1)';
+      text.style.opacity = 1;
+    }, 1000);
+
+    // 烟花上升函数
+    function launchFirework() {
+      // 随机生成发射点（底部区域，更符合真实烟花）
+      const startX = Math.random() * window.innerWidth;
+      const startY = window.innerHeight; // 从底部发射
+
+      // 随机爆炸点（上半部分区域）
+      const endY = Math.random() * window.innerHeight * 0.5 + 50;
+      const endX = startX + (Math.random() - 0.5) * 120; // 左右偏移
+
+      // 随机烟花颜色
+      const hue = Math.random() * 360;
+
+      // 创建上升的烟花弹
+      const rocket = document.createElement('div');
+      rocket.style.position = 'absolute';
+      rocket.style.width = '4px';
+      rocket.style.height = '10px';
+      rocket.style.background = `hsl(${hue}, 100%, 70%)`;
+      rocket.style.left = `${startX}px`;
+      rocket.style.top = `${startY}px`;
+      rocket.style.borderRadius = '2px';
+      document.body.appendChild(rocket);
+
+      // 上升动画
+      let rocketY = startY;
+      let rocketX = startX;
+      const riseSpeed = 5 + Math.random() * 2; // 随机上升速度（6-10）
+      const riseInterval = setInterval(() => {
+        // 向爆炸点移动
+        rocketY -= riseSpeed;
+        rocketX += (endX - rocketX) * 0.1;
+        rocket.style.top = `${rocketY}px`;
+        rocket.style.left = `${rocketX}px`;
+
+        // 生成尾迹
+        const trail = document.createElement('div');
+        trail.className = 'trail';
+        trail.style.width = `${Math.random() * 3 + 1}px`;
+        trail.style.height = `${Math.random() * 10 + 5}px`;
+        trail.style.left = `${rocketX}px`;
+        trail.style.top = `${rocketY + 10}px`;
+        document.body.appendChild(trail);
+        
+        // 尾迹消失动画
+        setTimeout(() => {
+          trail.style.opacity = '0';
+          trail.style.transition = 'opacity 0.5s, transform 0.5s';
+          trail.style.transform = 'scale(1.5)';
+          setTimeout(() => trail.remove(), 1000);
+        }, 100);
+
+        // 到达爆炸点
+        if (rocketY <= endY) {
+          clearInterval(riseInterval);
+          rocket.remove();
+          explode(endX, endY, hue); // 触发爆炸
+        }
+      }, 20);
+    }
+
+    // 爆炸函数
+    function explode(x, y, baseHue) {
+      const particleCount = Math.floor(Math.random() * 40) + 80; // 80-120个粒子
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        const size = Math.random() * 4 + 1;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // 随机邻近色
+        const hue = baseHue + (Math.random() - 0.5) * 30;
+        particle.style.background = `hsl(${hue}, 100%, 60%)`;
+        particle.style.borderRadius = '50%';
+        particle.style.position = 'absolute';
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.boxShadow = `0 0 ${size*2}px hsl(${hue}, 100%, 70%)`;
+        document.body.appendChild(particle);
+
+        // 粒子运动参数
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 6 + 4;
+        const gravity = 0.08;
+        let velocityY = Math.sin(angle) * speed;
+        let velocityX = Math.cos(angle) * speed;
+        let currentX = 0;
+        let currentY = 0;
+        let opacity = 1;
+
+        // 粒子动画
+        const animate = () => {
+          velocityY += gravity;
+          currentX += velocityX;
+          currentY += velocityY;
+          
+          particle.style.left = `${x + currentX}px`;
+          particle.style.top = `${y + currentY}px`;
+          opacity -= 0.015;
+          particle.style.opacity = opacity;
+
+          if (opacity <= 0) {
+            particle.remove();
+            return;
+          }
+          requestAnimationFrame(animate);
+        };
+        animate();
+      }
+    }
+
+    // 自动生成烟花的定时器
+    function startAutoFireworks() {
+      // 初始立即发射一个烟花
+      launchFirework();
+      
+      // 之后每隔随机时间发射（1-3秒）
+      setInterval(() => {
+        launchFirework();
+      }, Math.random() * 800 ); 
+    }
+
+    // 页面加载后启动自动烟花
+    window.onload = startAutoFireworks;
+  </script>
+</body>
+</html>
