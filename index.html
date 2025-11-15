@@ -1,0 +1,43 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .title {
+      font-size: 60px;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(255,255,255,0.8);
+      margin-bottom: 50px;
+      animation: float 3s ease-in-out infinite;
+    }
+    .enter-btn {
+      padding: 15px 40px;
+      font-size: 20px;
+      background: #fff;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .enter-btn:hover { transform: scale(1.1); }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">生日快乐！</h1>
+  <button class="enter-btn" onclick="location.href='cake.html'">点击开启祝福</button>
+</body>
+</html>
