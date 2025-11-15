@@ -1,0 +1,107 @@
+<!-- message.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      resize: vertical;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px; /* 按钮之间的间距 */
+      margin-bottom: 20px;
+    }
+    .save-btn {
+      padding: 10px 20px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .save-btn:hover {
+      background: #ff4757;
+    }
+    .checkout-btn {
+      padding: 10px 20px;
+      background: #4CAF50; /* 结算按钮用绿色区分 */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .checkout-btn:hover {
+      background: #45a049;
+    }
+    .history {
+      margin-top: 30px;
+      padding: 10px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>留下今朝的祝福</h2>
+    <textarea id="messageInput" placeholder="写下对未来的祝福吧..."></textarea>
+    <!-- 按钮组：包含原有祝福按钮和新增的结算按钮 -->
+    <div class="button-group">
+      <button class="save-btn" onclick="saveMessage()">祝福</button>
+      <button class="checkout-btn" onclick="location.href='card.html'">结算</button>
+    </div>
+    <div class="history">
+      <h3>明年见</h3>
+      <div id="messageList"></div>
+    </div>
+  </div>
+
+  <script>
+    // 保存祝福到本地存储
+    function saveMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      // 读取已有记录
+      const messages = JSON.parse(localStorage.getItem('birthdayMessages') || '[]');
+      messages.push({ text: message, time: new Date().toLocaleString() });
+      localStorage.setItem('birthdayMessages', JSON.stringify(messages));
+
+      input.value = '';
+      alert('祝福已保存！');
+      renderMessages(); // 刷新显示
+    }
+
+    // 渲染历史祝福
+    function renderMessages() {
+      const list = document.getElementById('messageList');
+      const messages = JSON.parse(localStorage.getItem('birthdayMessages') || '[]');
+      list.innerHTML = messages.map(m => `
+        <div style="margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+          <p>${m.text}</p>
+          <small style="color: #999;">${m.time}</small>
+        </div>
+      `).join('');
+    }
+
+    // 页面加载时显示历史记录
+    renderMessages();
+  </script>
+</body>
+</html>
